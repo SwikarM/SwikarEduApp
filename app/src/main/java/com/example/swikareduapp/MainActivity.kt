@@ -50,19 +50,20 @@ fun AppNav(modifier: Modifier = Modifier){
 
 }
 @Composable
-fun LandingScreen(navController: NavHostController) {
+fun LandingScreen(navController: NavHostController, modifier: Modifier = Modifier) {
+
 }
 
 @Composable
-fun SettingScreen(navController: NavHostController) {
+fun SettingScreen(navController: NavHostController, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun GameScreen(navController: NavHostController) {
+fun GameScreen(navController: NavHostController, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ScoreScreen(navController: NavHostController) {
+fun ScoreScreen(navController: NavHostController, modifier: Modifier = Modifier) {
 }
 
 

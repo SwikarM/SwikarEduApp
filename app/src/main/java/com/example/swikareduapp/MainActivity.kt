@@ -4,13 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.swikareduapp.ui.theme.SwikarEduAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +19,57 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SwikarEduAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                AppNav()
             }
         }
     }
 }
+@Composable
+fun AppNav(modifier: Modifier = Modifier){
+
+    //obtain navController
+    val navController = rememberNavController()
+
+    //set up NavHost and routes
+    NavHost(navController, startDestination = "Landing") {
+
+        //Define the home route
+        composable(route = "Landing") {
+            LandingScreen(navController) }
+        //Define the setting route
+        composable(route = "setting") {
+            SettingScreen(navController)}
+        //Define the game route
+        composable(route = "game") {
+            GameScreen(navController)}
+        //Define the score route
+        composable(route = "Score") {
+            ScoreScreen(navController)}
+
+    }
+
+}
+@Composable
+fun LandingScreen(navController: NavHostController) {
+}
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun SettingScreen(navController: NavHostController) {
 }
+
+@Composable
+fun GameScreen(navController: NavHostController) {
+}
+
+@Composable
+fun ScoreScreen(navController: NavHostController) {
+}
+
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun AppNavPreview() {
     SwikarEduAppTheme {
-        Greeting("Android")
+        AppNav()
     }
 }

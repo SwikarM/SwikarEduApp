@@ -2,6 +2,7 @@
 
 package com.example.swikareduapp
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,12 +17,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.swikareduapp.ui.TestDBScreen
 import com.example.swikareduapp.ui.theme.SwikarEduAppTheme
 
 /**
@@ -32,10 +35,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         // Enables edge-to-edge layout display for modern Android system bars
         enableEdgeToEdge()
+        // Obtain application context for database operations
+        val currentContext = applicationContext
         // Sets Jetpack Compose UI content
         setContent {
             SwikarEduAppTheme {
-                AppNav()
+                AppNav(currentContext)
             }
         }
     }
@@ -43,17 +48,20 @@ class MainActivity : ComponentActivity() {
 
 /**
  * Main navigation composable managing screen transitions and routes.
+ *
+ * @param currentContext Context reference passed to screens needing database access.
+ * @param modifier Optional modifier for UI styling.
  */
 @Composable
-fun AppNav(modifier: Modifier = Modifier) {
+fun AppNav(currentContext: Context, modifier: Modifier = Modifier) {
     // Obtain NavHostController to handle navigation actions
     val navController = rememberNavController()
 
-    // Set up NavHost container with start destination
-    NavHost(navController = navController, startDestination = "Landing", modifier = modifier) {
+    // Set up NavHost container with "testDB" as the start destination
+    NavHost(navController = navController, startDestination = "testDB", modifier = modifier) {
 
         // Define the Landing screen route
-        composable(route = "Landing") {
+        composable(route = "landing") {
             LandingScreen(navController)
         }
 
@@ -68,8 +76,13 @@ fun AppNav(modifier: Modifier = Modifier) {
         }
 
         // Define the Score screen route
-        composable(route = "Score") {
+        composable(route = "score") {
             ScoreScreen(navController)
+        }
+
+        // Define the TestDB screen route
+        composable(route = "testDB") {
+            TestDBScreen(currentContext)
         }
     }
 }
@@ -130,7 +143,7 @@ fun GameScreen(navController: NavHostController, modifier: Modifier = Modifier) 
                 .padding(innerPadding)
                 .padding(16.dp)
         ) {
-            Button(onClick = { navController.navigate("Score") }) {
+            Button(onClick = { navController.navigate("score") }) {
                 Text("Go to score")
             }
         }
@@ -151,7 +164,7 @@ fun ScoreScreen(navController: NavHostController, modifier: Modifier = Modifier)
                 .padding(innerPadding)
                 .padding(16.dp)
         ) {
-            Button(onClick = { navController.navigate("Landing") }) {
+            Button(onClick = { navController.navigate("landing") }) {
                 Text("Go to landing")
             }
         }
@@ -165,6 +178,6 @@ fun ScoreScreen(navController: NavHostController, modifier: Modifier = Modifier)
 @Composable
 fun AppNavPreview() {
     SwikarEduAppTheme {
-        AppNav()
+        AppNav(LocalContext.current)
     }
 }

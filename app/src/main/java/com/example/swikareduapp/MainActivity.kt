@@ -24,10 +24,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.swikareduapp.ui.theme.SwikarEduAppTheme
 
+/**
+ * Main Activity serving as the single-activity entry point for the application.
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Enables edge-to-edge layout display for modern Android system bars
         enableEdgeToEdge()
+        // Sets Jetpack Compose UI content
         setContent {
             SwikarEduAppTheme {
                 AppNav()
@@ -35,122 +40,127 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-@Composable
-fun AppNav(modifier: Modifier = Modifier){
 
-    //obtain navController
+/**
+ * Main navigation composable managing screen transitions and routes.
+ */
+@Composable
+fun AppNav(modifier: Modifier = Modifier) {
+    // Obtain NavHostController to handle navigation actions
     val navController = rememberNavController()
 
-    //set up NavHost and routes
-    NavHost(navController, startDestination = "Landing") {
+    // Set up NavHost container with start destination
+    NavHost(navController = navController, startDestination = "Landing", modifier = modifier) {
 
-        //Define the home route
+        // Define the Landing screen route
         composable(route = "Landing") {
-            LandingScreen(navController) }
-        //Define the setting route
-        composable(route = "setting") {
-            SettingScreen(navController)}
-        //Define the game route
-        composable(route = "game") {
-            GameScreen(navController)}
-        //Define the score route
-        composable(route = "Score") {
-            ScoreScreen(navController)}
-
-    }
-
-}
-@Composable
-
-fun LandingScreen(navController: NavHostController, modifier: Modifier = Modifier) {
-
-    Scaffold(
-        topBar = { TopAppBar(title = { Text("Landing Screen") }) }
-
-    ) {
-        innerPadding ->
-        Column(modifier
-
-            .fillMaxSize()
-            .padding(innerPadding)
-            .padding(16.dp)) {
-            Button(onClick = {navController.navigate("setting")})
-            { Text("Go to setting") }
-
+            LandingScreen(navController)
         }
 
-    }
+        // Define the Setting screen route
+        composable(route = "setting") {
+            SettingScreen(navController)
+        }
 
+        // Define the Game screen route
+        composable(route = "game") {
+            GameScreen(navController)
+        }
+
+        // Define the Score screen route
+        composable(route = "Score") {
+            ScoreScreen(navController)
+        }
+    }
 }
 
+/**
+ * Landing screen composable displaying initial options.
+ */
+@Composable
+fun LandingScreen(navController: NavHostController, modifier: Modifier = Modifier) {
+    Scaffold(
+        topBar = { TopAppBar(title = { Text("Landing Screen") }) }
+    ) { innerPadding ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp)
+        ) {
+            Button(onClick = { navController.navigate("setting") }) {
+                Text("Go to setting")
+            }
+        }
+    }
+}
+
+/**
+ * Setting screen composable displaying configuration options.
+ */
 @Composable
 fun SettingScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     Scaffold(
         topBar = { TopAppBar(title = { Text("Setting Screen") }) }
-
-    ) {
-            innerPadding ->
-        Column(modifier
-
-            .fillMaxSize()
-            .padding(innerPadding)
-            .padding(16.dp)) {
-            Button(onClick = {navController.navigate("game")})
-            { Text("Go to game") }
-
+    ) { innerPadding ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp)
+        ) {
+            Button(onClick = { navController.navigate("game") }) {
+                Text("Go to game")
+            }
         }
-
     }
-
 }
 
+/**
+ * Game screen composable displaying game content.
+ */
 @Composable
 fun GameScreen(navController: NavHostController, modifier: Modifier = Modifier) {
-
     Scaffold(
         topBar = { TopAppBar(title = { Text("Game Screen") }) }
-
-    ) {
-            innerPadding ->
-        Column(modifier
-
-            .fillMaxSize()
-            .padding(innerPadding)
-            .padding(16.dp)) {
-            Button(onClick = {navController.navigate("score")})
-            { Text("Go to score") }
-
+    ) { innerPadding ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp)
+        ) {
+            Button(onClick = { navController.navigate("Score") }) {
+                Text("Go to score")
+            }
         }
-
     }
-
-
 }
 
+/**
+ * Score screen composable displaying game scores and results.
+ */
 @Composable
 fun ScoreScreen(navController: NavHostController, modifier: Modifier = Modifier) {
-
     Scaffold(
         topBar = { TopAppBar(title = { Text("score Screen") }) }
-
-    ) {
-            innerPadding ->
-        Column(modifier
-
-            .fillMaxSize()
-            .padding(innerPadding)
-            .padding(16.dp)) {
-            Button(onClick = {navController.navigate("landing")})
-            { Text("Go to landing") }
-
+    ) { innerPadding ->
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(16.dp)
+        ) {
+            Button(onClick = { navController.navigate("Landing") }) {
+                Text("Go to landing")
+            }
         }
-
     }
-
-
 }
 
-
+/**
+ * Compose preview for testing AppNav layout in Android Studio.
+ */
 @Preview(showBackground = true)
 @Composable
 fun AppNavPreview() {
